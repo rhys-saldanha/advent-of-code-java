@@ -126,12 +126,13 @@ public class App {
      * @return The current year during December, or the prior year otherwise.
      */
     private static int defaultYear() {
-        LocalDate today = LocalDate.now();
+        return 2021;
+        /*LocalDate today = LocalDate.now();
         if (today.getMonth() == Month.DECEMBER) {
             return today.getYear();
         } else {
             return today.getYear() - 1;
-        }
+        }*/
     }
 
     /**
