@@ -10,7 +10,9 @@ public interface Puzzle {
 
     int day();
 
-    Mono<String> part1(Flux<String> input);
+    default Mono<String> part1(Flux<String> input) {
+        return input.count().map(count -> "lines: " + count);
+    }
 
     Mono<String> part2(Flux<String> input);
 }

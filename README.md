@@ -56,4 +56,4 @@ Run the tests:
 1. Create `src/main/java/aoc/years/year<YEAR>/day<NN>/DayNN.java` implementing `aoc.utils.Puzzle` and annotate it `@Component` so `PuzzleRunner` discovers it.
 2. Put the puzzle's sample input in `src/test/resources/years/<YEAR>/day<NN>/example.txt` and write `DayNNTest.java` using `PuzzleInput` + Reactor's `StepVerifier`.
 3. Put your personal input in `src/main/resources/years/<YEAR>/day<NN>/input.txt` (add `*.txt` handling to `.gitignore` if you do not want to commit it).
-4. Implement `part1` / `part2` as `Mono<String>` functions over the input `Flux<String>`.
+4. `part1` already has a default implementation that counts lines; override it when you're ready. Implement `part2` as a `Mono<String>` function over the input `Flux<String>`.

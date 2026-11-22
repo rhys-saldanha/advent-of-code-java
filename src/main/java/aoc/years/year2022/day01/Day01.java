@@ -19,12 +19,6 @@ public class Day01 implements Puzzle {
     }
 
     @Override
-    public Mono<String> part1(Flux<String> input) {
-        // TODO: implement part 1
-        return Mono.empty();
-    }
-
-    @Override
     public Mono<String> part2(Flux<String> input) {
         // TODO: implement part 2
         return Mono.empty();
