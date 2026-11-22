@@ -1,6 +1,6 @@
 # Advent of Code (Java)
 
-A [Spring Boot 4.2.0](https://spring.io/projects/spring-boot) + [Project Reactor](https://projectreactor.io/) starter for solving [Advent of Code](https://adventofcode.com/) puzzles in Java 25.
+A [Spring Boot 4.2.0](https://spring.io/projects/spring-boot) + [Project Reactor](https://projectreactor.io/) starter for solving [Advent of Code](https://adventofcode.com/) puzzles in Java 25. There is no web stack: it is a command-line application.
 
 ## Layout
 
