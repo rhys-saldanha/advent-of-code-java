@@ -3,7 +3,6 @@ package aoc.utils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
 
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +33,6 @@ public class PuzzleRunner implements ApplicationRunner {
 
         int year = Integer.parseInt(values.get(0));
         int day = Integer.parseInt(values.get(1));
-        int part = values.size() > 2 ? Integer.parseInt(values.get(2)) : 0;
 
         Puzzle puzzle = puzzles.stream()
                 .filter(candidate -> candidate.year() == year && candidate.day() == day)
@@ -42,12 +40,10 @@ public class PuzzleRunner implements ApplicationRunner {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No puzzle registered for %d day %02d".formatted(year, day)));
 
-        Flux<String> input = PuzzleInput.lines(year, day);
-        if (part == 0 || part == 1) {
-            puzzle.part1(input).doOnNext(result -> System.out.println("Part 1: " + result)).block();
-        }
-        if (part == 0 || part == 2) {
-            puzzle.part2(input).doOnNext(result -> System.out.println("Part 2: " + result)).block();
+        if (values.size() > 2) {
+            PuzzleMain.run(puzzle, values.get(2));
+        } else {
+            PuzzleMain.run(puzzle);
         }
     }
 }

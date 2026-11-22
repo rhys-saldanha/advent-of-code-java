@@ -10,6 +10,7 @@ src/main/java/aoc/
   utils/                               shared puzzle infrastructure
     Puzzle.java                        contract implemented by every day
     PuzzleInput.java                   classpath input -> Flux<String>
+    PuzzleMain.java                    shared entry point called by every day's main
     PuzzleRunner.java                  selects/runs puzzles from CLI args
   years/
     year2022/day01/Day01.java          empty implementation stub
@@ -31,18 +32,20 @@ empty `input.txt` ready to paste your personal input into.
 
 ## Run
 
-List registered puzzles:
+Every day has its own `main`, so in an IDE you can right-click `DayNN` and run
+`DayNN.main()`. From the command line, run a day's main with:
+
+```bash
+./gradlew runDay -Pyear=2022 -Pday=1
+./gradlew runDay -Pyear=2022 -Pday=1 --args='2'   # one part
+```
+
+The Spring Boot runner is still available and lists registered puzzles with no args:
 
 ```bash
 ./gradlew bootRun
-```
-
-Run a specific day (both parts), or one part:
-
-```bash
 ./gradlew bootRun --args='2026 1'
 ./gradlew bootRun --args='2026 1 2'
-./gradlew bootRun --args='2022 1'
 ```
 
 Run the tests:

@@ -61,6 +61,7 @@ tasks.register("newDay") {
 			package aoc.years.year$year.day$paddedDay;
 
 			import aoc.utils.Puzzle;
+			import aoc.utils.PuzzleMain;
 			import org.springframework.stereotype.Component;
 
 			@Component("year${year}Day$paddedDay")
@@ -74,6 +75,10 @@ tasks.register("newDay") {
 			    @Override
 			    public int day() {
 			        return $day;
+			    }
+
+			    public static void main(String[] args) {
+			        PuzzleMain.run(new Day$paddedDay(), args);
 			    }
 			}
 			""".trimIndent() + "\n"
@@ -98,4 +103,21 @@ tasks.register("newDay") {
 
 		println("Scaffolded $year day $day")
 	}
+}
+
+tasks.register<JavaExec>("runDay") {
+	group = "advent of code"
+	description = "Run a day's main: ./gradlew runDay -Pyear=2022 -Pday=1 [--args='1']"
+
+	val yearProperty = providers.gradleProperty("year")
+	val dayProperty = providers.gradleProperty("day")
+
+	classpath = sourceSets["main"].runtimeClasspath
+	mainClass.set(providers.provider {
+		val year = yearProperty.orNull ?: throw GradleException("Specify -Pyear=YYYY")
+		val day = dayProperty.orNull?.toIntOrNull()?.takeIf { it in 1..25 }
+			?: throw GradleException("Specify -Pday=N with N between 1 and 25")
+		val paddedDay = "%02d".format(day)
+		"aoc.years.year$year.day$paddedDay.Day$paddedDay"
+	})
 }

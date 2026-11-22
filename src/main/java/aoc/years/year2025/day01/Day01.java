@@ -1,6 +1,7 @@
 package aoc.years.year2025.day01;
 
 import aoc.utils.Puzzle;
+import aoc.utils.PuzzleMain;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,5 +27,9 @@ public class Day01 implements Puzzle {
     @Override
     public Mono<String> part2(Flux<String> input) {
         return input.filter(line -> !line.isBlank()).count().map(count -> "non-blank lines: " + count);
+    }
+
+    public static void main(String[] args) {
+        PuzzleMain.run(new Day01(), args);
     }
 }
