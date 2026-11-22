@@ -53,7 +53,16 @@ Run the tests:
 
 ## Add a new day
 
-1. Create `src/main/java/aoc/years/year<YEAR>/day<NN>/DayNN.java` implementing `aoc.utils.Puzzle` and annotate it `@Component` so `PuzzleRunner` discovers it.
-2. Put the puzzle's sample input in `src/test/resources/years/<YEAR>/day<NN>/example.txt` and write `DayNNTest.java` using `PuzzleInput` + Reactor's `StepVerifier`.
-3. Put your personal input in `src/main/resources/years/<YEAR>/day<NN>/input.txt` (add `*.txt` handling to `.gitignore` if you do not want to commit it).
-4. `part1` already has a default implementation that counts lines; override it when you're ready. Implement `part2` as a `Mono<String>` function over the input `Flux<String>`.
+Run the scaffold task:
+
+```bash
+./gradlew newDay -Pyear=2022 -Pday=2
+```
+
+It creates an empty `DayNN` stub plus the two text files every day has:
+
+- `src/test/resources/years/<YEAR>/day<NN>/example.txt` — the example from the puzzle page, committed and used by tests.
+- `src/main/resources/years/<YEAR>/day<NN>/input.txt` — empty and gitignored; paste your personal input here.
+
+It refuses to overwrite an existing day. `part1` and `part2` both default to counting lines,
+so override them in the stub as you implement the puzzle.

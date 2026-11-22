@@ -14,5 +14,7 @@ public interface Puzzle {
         return input.count().map(count -> "lines: " + count);
     }
 
-    Mono<String> part2(Flux<String> input);
+    default Mono<String> part2(Flux<String> input) {
+        return input.count().map(count -> "lines: " + count);
+    }
 }
