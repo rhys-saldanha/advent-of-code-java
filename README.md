@@ -59,7 +59,7 @@ Run the scaffold task:
 ./gradlew newDay -Pyear=2022 -Pday=2
 ```
 
-It creates an empty `DayNN` stub plus the two text files every day has:
+It creates an empty `DayNN` stub, an empty `DayNNTest`, and the two text files every day has:
 
 - `src/test/resources/years/<YEAR>/day<NN>/example.txt` — the example from the puzzle page, committed and used by tests.
 - `src/main/resources/years/<YEAR>/day<NN>/input.txt` — empty and gitignored; paste your personal input here.

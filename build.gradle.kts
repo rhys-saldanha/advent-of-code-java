@@ -43,17 +43,19 @@ tasks.register("newDay") {
 		val paddedDay = "%02d".format(day)
 
 		val javaDir = project.layout.projectDirectory.dir("src/main/java/aoc/years/year$year/day$paddedDay").asFile
+		val testJavaDir = project.layout.projectDirectory.dir("src/test/java/aoc/years/year$year/day$paddedDay").asFile
 		val testResourcesDir = project.layout.projectDirectory.dir("src/test/resources/years/$year/day$paddedDay").asFile
 		val mainResourcesDir = project.layout.projectDirectory.dir("src/main/resources/years/$year/day$paddedDay").asFile
 
 		val stub = javaDir.resolve("Day$paddedDay.java")
+		val test = testJavaDir.resolve("Day${paddedDay}Test.java")
 		val example = testResourcesDir.resolve("example.txt")
 		val input = mainResourcesDir.resolve("input.txt")
-		listOf(stub, example, input).forEach { file ->
+		listOf(stub, test, example, input).forEach { file ->
 			if (file.exists()) throw GradleException("Already exists: ${file.relativeTo(project.rootDir)}")
 		}
 
-		listOf(javaDir, testResourcesDir, mainResourcesDir).forEach { it.mkdirs() }
+		listOf(javaDir, testJavaDir, testResourcesDir, mainResourcesDir).forEach { it.mkdirs() }
 		stub.writeText(
 			"""
 			package aoc.years.year$year.day$paddedDay;
@@ -72,6 +74,21 @@ tasks.register("newDay") {
 			    @Override
 			    public int day() {
 			        return $day;
+			    }
+			}
+			""".trimIndent() + "\n"
+		)
+		test.writeText(
+			"""
+			package aoc.years.year$year.day$paddedDay;
+
+			import org.junit.jupiter.api.Test;
+
+			class Day${paddedDay}Test {
+
+			    @Test
+			    void part1() {
+			        // TODO: read example.txt with PuzzleInput and assert with StepVerifier
 			    }
 			}
 			""".trimIndent() + "\n"
