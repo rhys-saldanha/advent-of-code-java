@@ -8,9 +8,10 @@ class PuzzleInputTest {
     @Test
     void streamsLinesFromClasspath() {
         StepVerifier.create(PuzzleInput.lines("aoc/utils/example.txt"))
-                .expectNext("7-8")
-                .expectNext("9-10")
-                .expectNext("11-12")
+                .expectNext("line 1")
+                .expectNext("line 2")
+                .expectNext("")
+                .expectNext("line 4")
                 .verifyComplete();
     }
 
