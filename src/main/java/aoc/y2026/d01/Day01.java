@@ -1,23 +1,13 @@
-package aoc.years.year2025.day01;
+package aoc.y2026.d01;
 
 import aoc.utils.Puzzle;
-import aoc.utils.PuzzleMain;
+import aoc.utils.PuzzleRunner;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component("year2025Day01")
+@Component("y2026D01")
 public class Day01 implements Puzzle {
-
-    @Override
-    public int year() {
-        return 2025;
-    }
-
-    @Override
-    public int day() {
-        return 1;
-    }
 
     @Override
     public Mono<String> part1(Flux<String> input) {
@@ -30,6 +20,6 @@ public class Day01 implements Puzzle {
     }
 
     public static void main(String[] args) {
-        PuzzleMain.run(new Day01(), args);
+        PuzzleRunner.run(Day01.class);
     }
 }

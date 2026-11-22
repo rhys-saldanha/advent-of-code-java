@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### Advent of Code personal puzzle inputs ###
-src/main/resources/years/**/input.txt
+src/main/resources/**/input.txt

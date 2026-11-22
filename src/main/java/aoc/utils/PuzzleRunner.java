@@ -1,49 +1,49 @@
 package aoc.utils;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.Comparator;
-import java.util.List;
+/** Runs a single puzzle against its personal input.txt. */
+public final class PuzzleRunner {
 
-/** Lists the available puzzles, or runs the one selected by command-line arguments. */
-@Component
-public class PuzzleRunner implements ApplicationRunner {
-
-    private final List<Puzzle> puzzles;
-
-    public PuzzleRunner(List<Puzzle> puzzles) {
-        this.puzzles = puzzles.stream()
-                .sorted(Comparator.comparingInt(Puzzle::year).thenComparingInt(Puzzle::day))
-                .toList();
+    private PuzzleRunner() {
     }
 
-    @Override
-    public void run(ApplicationArguments args) {
-        List<String> values = args.getNonOptionArgs();
-        if (values.isEmpty()) {
-            puzzles.forEach(puzzle ->
-                    System.out.printf("Available: %d day %02d%n", puzzle.year(), puzzle.day()));
-            return;
-        }
-        if (values.size() < 2) {
-            throw new IllegalArgumentException("Usage: ./gradlew bootRun --args='<year> <day> [1|2]'");
-        }
+    public static Mono<String> part1(Class<? extends Puzzle> puzzleType) {
+        final var puzzle = newPuzzle(puzzleType);
+        return part1(puzzle, PuzzleInput.lines(puzzle.year(), puzzle.day()));
+    }
 
-        int year = Integer.parseInt(values.get(0));
-        int day = Integer.parseInt(values.get(1));
+    public static Mono<String> part2(Class<? extends Puzzle> puzzleType) {
+        final var puzzle = newPuzzle(puzzleType);
+        return part2(puzzle, PuzzleInput.lines(puzzle.year(), puzzle.day()));
+    }
 
-        Puzzle puzzle = puzzles.stream()
-                .filter(candidate -> candidate.year() == year && candidate.day() == day)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "No puzzle registered for %d day %02d".formatted(year, day)));
+    /** Runs both parts, printing each result. */
+    public static void run(Class<? extends Puzzle> puzzleType) {
+        final var puzzle = newPuzzle(puzzleType);
+        final var input = PuzzleInput.lines(puzzle.year(), puzzle.day());
+        print("Part 1", part1(puzzle, input));
+        print("Part 2", part2(puzzle, input));
+    }
 
-        if (values.size() > 2) {
-            PuzzleMain.run(puzzle, values.get(2));
-        } else {
-            PuzzleMain.run(puzzle);
+    static Puzzle newPuzzle(Class<? extends Puzzle> puzzleType) {
+        try {
+            return puzzleType.getDeclaredConstructor().newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Cannot instantiate " + puzzleType.getName(), e);
         }
+    }
+
+    static Mono<String> part1(Puzzle puzzle, Flux<String> input) {
+        return puzzle.part1(input);
+    }
+
+    static Mono<String> part2(Puzzle puzzle, Flux<String> input) {
+        return puzzle.part2(input);
+    }
+
+    private static void print(String label, Mono<String> result) {
+        result.doOnNext(value -> System.out.println(label + ": " + value)).block();
     }
 }

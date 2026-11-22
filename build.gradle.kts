@@ -42,10 +42,10 @@ tasks.register("newDay") {
 			?: throw GradleException("Specify -Pday=N with N between 1 and 25")
 		val paddedDay = "%02d".format(day)
 
-		val javaDir = project.layout.projectDirectory.dir("src/main/java/aoc/years/year$year/day$paddedDay").asFile
-		val testJavaDir = project.layout.projectDirectory.dir("src/test/java/aoc/years/year$year/day$paddedDay").asFile
-		val testResourcesDir = project.layout.projectDirectory.dir("src/test/resources/years/$year/day$paddedDay").asFile
-		val mainResourcesDir = project.layout.projectDirectory.dir("src/main/resources/years/$year/day$paddedDay").asFile
+		val javaDir = project.layout.projectDirectory.dir("src/main/java/aoc/y$year/d$paddedDay").asFile
+		val testJavaDir = project.layout.projectDirectory.dir("src/test/java/aoc/y$year/d$paddedDay").asFile
+		val testResourcesDir = project.layout.projectDirectory.dir("src/test/resources/y$year/d$paddedDay").asFile
+		val mainResourcesDir = project.layout.projectDirectory.dir("src/main/resources/y$year/d$paddedDay").asFile
 
 		val stub = javaDir.resolve("Day$paddedDay.java")
 		val test = testJavaDir.resolve("Day${paddedDay}Test.java")
@@ -58,42 +58,34 @@ tasks.register("newDay") {
 		listOf(javaDir, testJavaDir, testResourcesDir, mainResourcesDir).forEach { it.mkdirs() }
 		stub.writeText(
 			"""
-			package aoc.years.year$year.day$paddedDay;
+			package aoc.y$year.d$paddedDay;
 
 			import aoc.utils.Puzzle;
-			import aoc.utils.PuzzleMain;
+			import aoc.utils.PuzzleRunner;
 			import org.springframework.stereotype.Component;
 
-			@Component("year${year}Day$paddedDay")
+			@Component("y${year}D$paddedDay")
 			public class Day$paddedDay implements Puzzle {
 
-			    @Override
-			    public int year() {
-			        return $year;
-			    }
-
-			    @Override
-			    public int day() {
-			        return $day;
-			    }
-
 			    public static void main(String[] args) {
-			        PuzzleMain.run(new Day$paddedDay(), args);
+			        PuzzleRunner.run(Day$paddedDay.class);
 			    }
 			}
 			""".trimIndent() + "\n"
 		)
 		test.writeText(
 			"""
-			package aoc.years.year$year.day$paddedDay;
+			package aoc.y$year.d$paddedDay;
 
+			import aoc.utils.TestPuzzleRunner;
 			import org.junit.jupiter.api.Test;
+			import reactor.test.StepVerifier;
 
 			class Day${paddedDay}Test {
 
 			    @Test
 			    void part1() {
-			        // TODO: read example.txt with PuzzleInput and assert with StepVerifier
+			        // TODO: StepVerifier.create(TestPuzzleRunner.part1(Day$paddedDay.class)).expectNext("answer").verifyComplete();
 			    }
 			}
 			""".trimIndent() + "\n"
@@ -107,7 +99,7 @@ tasks.register("newDay") {
 
 tasks.register<JavaExec>("runDay") {
 	group = "advent of code"
-	description = "Run a day's main: ./gradlew runDay -Pyear=2022 -Pday=1 [--args='1']"
+	description = "Run a day's main: ./gradlew runDay -Pyear=2022 -Pday=1"
 
 	val yearProperty = providers.gradleProperty("year")
 	val dayProperty = providers.gradleProperty("day")
@@ -118,6 +110,6 @@ tasks.register<JavaExec>("runDay") {
 		val day = dayProperty.orNull?.toIntOrNull()?.takeIf { it in 1..25 }
 			?: throw GradleException("Specify -Pday=N with N between 1 and 25")
 		val paddedDay = "%02d".format(day)
-		"aoc.years.year$year.day$paddedDay.Day$paddedDay"
+		"aoc.y$year.d$paddedDay.Day$paddedDay"
 	})
 }

@@ -10,23 +10,23 @@ src/main/java/aoc/
   utils/                               shared puzzle infrastructure
     Puzzle.java                        contract implemented by every day
     PuzzleInput.java                   classpath input -> Flux<String>
-    PuzzleMain.java                    shared entry point called by every day's main
-    PuzzleRunner.java                  selects/runs puzzles from CLI args
-  years/
-    year2022/day01/Day01.java          empty implementation stub
-    year2025/day01/Day01.java          example solution
-    year2026/day01/Day01.java          example solution
+    PuzzleRunner.java                  per-puzzle runner, reads that day's input.txt
+  y2022/d01/Day01.java                 package aoc.y2022.d01; empty implementation stub
+  y2025/d01/Day01.java                 package aoc.y2025.d01; example solution
+  y2026/d01/Day01.java                 package aoc.y2026.d01; example solution
 src/test/java/aoc/
   utils/                               tests for shared utilities
-  years/.../dayNN/DayNNTest.java       one test class per day
-src/main/resources/years/<year>/day<NN>/input.txt      your real puzzle input
-src/test/resources/years/<year>/day<NN>/example.txt    sample input from the puzzle
+    TestPuzzleRunner.java              runs a puzzle against that day's example.txt
+    TestPuzzleInput.java               example.txt -> Flux<String>
+  y<YEAR>/d<NN>/DayNNTest.java         one test class per day
+src/main/resources/y<YEAR>/d<NN>/input.txt      your real puzzle input
+src/test/resources/y<YEAR>/d<NN>/example.txt    sample input from the puzzle
 ```
 
 `main` holds solutions and real input; `test` holds sample-driven tests; `utils` holds
 the reusable plumbing shared across all years.
 
-Personal input files (`src/main/resources/years/**/input.txt`) are gitignored. The
+Personal input files (`src/main/resources/**/input.txt`) are gitignored. The
 2022 day 01 scaffold contains the puzzle's sample data in the test resource and an
 empty `input.txt` ready to paste your personal input into.
 
@@ -37,15 +37,16 @@ Every day has its own `main`, so in an IDE you can right-click `DayNN` and run
 
 ```bash
 ./gradlew runDay -Pyear=2022 -Pday=1
-./gradlew runDay -Pyear=2022 -Pday=1 --args='2'   # one part
 ```
 
-The Spring Boot runner is still available and lists registered puzzles with no args:
+Each day's `main` uses `PuzzleRunner.run(DayNN.class)`, which instantiates the puzzle,
+derives the year and day from its package and loads the matching `input.txt`. In tests,
+`TestPuzzleRunner` does the same with `example.txt`:
 
-```bash
-./gradlew bootRun
-./gradlew bootRun --args='2026 1'
-./gradlew bootRun --args='2026 1 2'
+```java
+StepVerifier.create(TestPuzzleRunner.part1(Day01.class))
+        .expectNext("24000")
+        .verifyComplete();
 ```
 
 Run the tests:
@@ -64,8 +65,11 @@ Run the scaffold task:
 
 It creates an empty `DayNN` stub, an empty `DayNNTest`, and the two text files every day has:
 
-- `src/test/resources/years/<YEAR>/day<NN>/example.txt` — the example from the puzzle page, committed and used by tests.
-- `src/main/resources/years/<YEAR>/day<NN>/input.txt` — empty and gitignored; paste your personal input here.
+- `src/test/resources/y<YEAR>/d<NN>/example.txt` — the example from the puzzle page, committed and used by tests.
+- `src/main/resources/y<YEAR>/d<NN>/input.txt` — empty and gitignored; paste your personal input here.
 
-It refuses to overwrite an existing day. `part1` and `part2` both default to counting lines,
-so override them in the stub as you implement the puzzle.
+Packages follow `aoc.y<YEAR>.d<NN>` and resource folders follow `y<YEAR>/d<NN>`.
+
+It refuses to overwrite an existing day. `year()` and `day()` are read from the package name
+(`aoc.y<YEAR>.d<NN>`), so the stub doesn't implement them. `part1` and `part2` both default to
+counting lines, so override them in the stub as you implement the puzzle.

@@ -4,7 +4,6 @@ import reactor.core.publisher.Flux;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -15,11 +14,11 @@ public final class PuzzleInput {
     private PuzzleInput() {
     }
 
-    /** Reads the classpath resource at {@code resource}, e.g. {@code years/2026/day01/example.txt}. */
+    /** Reads the classpath resource at {@code resource}, e.g. {@code y2026/d01/example.txt}. */
     public static Flux<String> lines(String resource) {
         return Flux.using(
                 () -> {
-                    InputStream stream = PuzzleInput.class.getClassLoader().getResourceAsStream(resource);
+                    final var stream = PuzzleInput.class.getClassLoader().getResourceAsStream(resource);
                     if (stream == null) {
                         throw new IllegalArgumentException("Puzzle input not found on classpath: " + resource);
                     }
@@ -36,8 +35,8 @@ public final class PuzzleInput {
         );
     }
 
-    /** Reads {@code years/{year}/day{NN}/input.txt} from the main resources. */
+    /** Reads {@code y{year}/d{NN}/input.txt} from the main resources. */
     public static Flux<String> lines(int year, int day) {
-        return lines("years/%d/day%02d/input.txt".formatted(year, day));
+        return lines("y%d/d%02d/input.txt".formatted(year, day));
     }
 }
