@@ -12,6 +12,7 @@ src/main/java/aoc/
     PuzzleInput.java                   classpath input -> Flux<String>
     PuzzleRunner.java                  selects/runs puzzles from CLI args
   years/
+    year2022/day01/Day01.java          empty implementation stub
     year2025/day01/Day01.java          example solution
     year2026/day01/Day01.java          example solution
 src/test/java/aoc/
@@ -23,6 +24,10 @@ src/test/resources/years/<year>/day<NN>/example.txt    sample input from the puz
 
 `main` holds solutions and real input; `test` holds sample-driven tests; `utils` holds
 the reusable plumbing shared across all years.
+
+Personal input files (`src/main/resources/years/**/input.txt`) are gitignored. The
+2022 day 01 scaffold contains the puzzle's sample data in the test resource and an
+empty `input.txt` ready to paste your personal input into.
 
 ## Run
 
@@ -37,6 +42,7 @@ Run a specific day (both parts), or one part:
 ```bash
 ./gradlew bootRun --args='2026 1'
 ./gradlew bootRun --args='2026 1 2'
+./gradlew bootRun --args='2022 1'
 ```
 
 Run the tests:
