@@ -7,7 +7,7 @@ class PuzzleInputTest {
 
     @Test
     void streamsLinesFromClasspath() {
-        StepVerifier.create(PuzzleInput.lines("years/2026/day01/example.txt"))
+        StepVerifier.create(PuzzleInput.lines("years/9999/day99/example.txt"))
                 .expectNext("7-8")
                 .expectNext("9-10")
                 .expectNext("11-12")
@@ -16,7 +16,7 @@ class PuzzleInputTest {
 
     @Test
     void rejectsMissingResource() {
-        StepVerifier.create(PuzzleInput.lines("years/2026/day25/input.txt"))
+        StepVerifier.create(PuzzleInput.lines("years/9999/day99/input.txt"))
                 .expectError(IllegalArgumentException.class)
                 .verify();
     }
