@@ -12,4 +12,11 @@ class Day01Test {
                 .expectNext("24000")
                 .verifyComplete();
     }
+
+    @Test
+    void part2() {
+        StepVerifier.create(TestPuzzleRunner.part2(Day01.class))
+                .expectNext("45000")
+                .verifyComplete();
+    }
 }

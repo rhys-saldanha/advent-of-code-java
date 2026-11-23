@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 @Component("y2025D01")
 public class Day01 implements Puzzle {
 
-    @Override
     public Mono<String> part1(Flux<String> input) {
         return input.count().map(count -> "lines: " + count);
     }
