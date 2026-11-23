@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component("y2022D01")
 public class Day01 implements Puzzle {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         PuzzleRunner.run(Day01.class);
     }
 }
